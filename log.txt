@@ -1,0 +1,89 @@
+[Info]
+     ------
+        File name:	/home/imcczy/Downloads/DroidBoxTests.apk
+        MD5:		aabdfae011e3e9cfc3519520350b0641
+        SHA1:		8c189ee0fe385769dab515a20d9eec63c608ee8c
+        SHA256:		ee093aa086a1638edd22823ec3c806828caf40ee41f1f48367c172b516c9e070
+        Duration:	458.99980092s
+
+
+     [File activities]
+     -----------------
+
+        [Read operations]
+        -----------------
+
+        [Write operations]
+        ------------------
+
+     [Crypto API activities]
+     -----------------------
+           [1.40313696861]		 Key:{0, 42, 2, 54, 4, 45, 6, 7, 65, 9, 54, 11, 12, 13, 60, 15} Algorithm: AES
+           [1.40885305405]		 Operation:{encryption} Algorithm: AES
+           				 Data:{357242043237511}
+
+           [1.41362309456]		 Key:{0, 42, 2, 54, 4, 45, 6, 7, 65, 9, 54, 11, 12, 13, 60, 15} Algorithm: AES
+           [1.4154419899]		 Operation:{decryption} Algorithm: AES
+           				 Data:{357242043237511}
+
+           [1.42621302605]		 Key:{0, 42, 2, 54, 4, 45, 6, 8} Algorithm: DES
+           [1.43059110641]		 Operation:{encryption} Algorithm: DES
+           				 Data:{357242043237511}
+
+           [1.43618297577]		 Key:{0, 42, 2, 54, 4, 45, 6, 8} Algorithm: DES
+           [1.43799090385]		 Operation:{decryption} Algorithm: DES
+           				 Data:{357242043237511}
+
+     [Network activity]
+     ------------------
+
+        [Opened connections]
+        --------------------
+           [1.48736310005]		 Destination: 216.58.221.110 Port: 80
+
+        [Outgoing traffic]
+        ------------------
+
+
+        [Incoming traffic]
+        ------------------
+
+     [DexClassLoader]
+     -----------------
+           0.672745943069			 Path: /data/app/droidbox.tests-1.apk
+
+           198.887558937			 Path: /system/app/Contacts.apk
+
+     [Broadcast receivers]
+     ---------------------
+           .SMSReceiver			 Action: android.provider.Telephony.SMS_RECEIVED
+
+     [Started services]
+     ------------------
+           198.208184004			 Class: com.android.contacts.ViewNotificationService
+
+           283.991271019			 Class: com.android.contacts.calllog.CallLogNotificationsService
+
+           288.774523973			 Class: com.android.contacts.calllog.CallLogNotificationsService
+
+     [Enforced permissions]
+     ----------------------
+
+     [Permissions bypassed]
+     ----------------------
+
+     [Information leakage]
+     ---------------------
+           [190.617785931]		 Sink: SMS
+           				 Number: 0735445281
+           				 Tag: TAINT_IMEI
+     [Sent SMS]
+     ----------
+           [190.590740919]		 Number: 0735445281
+           				 Message: Sending sms...
+           [190.617785931]		 Number: 0735445281
+           				 Message: 92a871af351ba74720dd7ab4d9126996
+
+     [Phone calls]
+     -------------
+           [190.641151905]		 Number: 123456789
