@@ -1,7 +1,7 @@
 '''
-Created on Feb 13, 2014
+Created on Nov 7, 2015
 
-@author: sushant
+@author: imcczy
 '''
 
 from cluster import *
@@ -18,17 +18,13 @@ class dbscanner:
     
     
     def dbscan(self,D,eps,MinPts):
-        self.dataSet = D
-        print len(self.dataSet) 
+        self.dataSet = D 
         C = -1
         Noise = cluster('Noise')
         fig = plt.figure()
         ax = plt.axes(projection='3d')
-        #sum = 0
-        #sum1 =0 
-
+        ax.set_title('dbscaned data')
         for point in D:
-            #sum1 = sum1 +1
             if point not in self.visited:
                 self.visited.append(point)
                 NeighbourPoints = self.regionQuery(point,eps)
@@ -40,15 +36,12 @@ class dbscanner:
                     C = cluster(name)
                     self.count+=1
                     self.expandCluster(point,NeighbourPoints,C,eps,MinPts)
-                    C.printPoints()
-                    #sum = sum+C.printPoints()
-                    ax.plot(C.getX(),C.getY(),C.getZ(),'o',label=name)
+                    ax.plot(C.getX(),C.getY(),C.getZ(),'.',label=name)
         if len(Noise.getPoints())!=0:
-            #sum = sum+Noise.printPoints()
-            ax.plot(Noise.getX(),Noise.getY(),Noise.getZ(),'o',label='Noise')
-        #print sum,sum1
+            ax.plot(Noise.getX(),Noise.getY(),Noise.getZ(),'.',label='Noise')
         plt.legend(loc='lower left')
-        plt.show()
+        #plt.show()
+        plt.savefig('dbscaned.png')
 
                     
                     
