@@ -95,7 +95,10 @@ def pca(X, num_components=0):
     return [eigenvalues, eigenvectors, mean]
 
 if __name__ == "__main__":
-    [X,lable] = read_images('/cygdrive/c/Users/Think/Downloads/att_faces')
+	if len(sys.argv) != 2:
+        print "USAGE: pac.py </path/to/images>"
+        sys.exit()
+    [X,lable] = read_images(sys.argv[1])
     X = asRowMatrix(X)
     [e_val, e_vec, m] = pca(X)
     e_num = compute(e_val)
