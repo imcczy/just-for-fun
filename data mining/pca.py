@@ -1,7 +1,6 @@
 #! /usr/bin/env python
 '''
 Created on Nov 27, 2015
-
 @author: imcczy
 '''
 
@@ -9,6 +8,7 @@ import os, sys
 import numpy as np
 import PIL.Image as Image
 
+#读取图像
 def read_images(path, sz=None):
     c = 0
     X,lable = [], []
@@ -31,7 +31,7 @@ def read_images(path, sz=None):
                     raise
             c = c+1
     return [X,lable]
-
+#转换成400*10304的矩阵
 def asRowMatrix(X):
     if len(X) == 0:
         return np.array([])
@@ -39,7 +39,7 @@ def asRowMatrix(X):
     for row in X:
         mat = np.vstack((mat, np.asarray(row).reshape(1,-1)))
     return mat
-
+#转换成10304*400的矩阵
 def asColumnMatrix(X):
     if len(X) == 0:
         return np.array([])
@@ -47,17 +47,17 @@ def asColumnMatrix(X):
     for col in X:
         mat = np.hstack((mat, np.asarray(col).reshape(-1,1)))
     return mat
-
+#降维处理，投影
 def project(W, X, mean=None):
     if mean is None:
         return np.dot(X,W)
     return np.dot(X - mean, W)
-
+#重构
 def reconstruct(W, Y, mean=None):
     if mean is None:
         return np.dot(Y,W.T)
     return np.dot(Y, W.T) + mean
-
+#计算占总和90%的特征值缩索引
 def compute(eigenvalues):
     a_sum = 0;
     sum = eigenvalues.sum()
@@ -66,7 +66,7 @@ def compute(eigenvalues):
         if a_sum / float(sum) >= 0.9:
             break
     return x
-
+#利用奇异值分解计算pca
 def pca(X, num_components=0):
     [n,d] = X.shape
     if (num_components <= 0) or (num_components>n):
@@ -95,7 +95,7 @@ def pca(X, num_components=0):
     return [eigenvalues, eigenvectors, mean]
 
 if __name__ == "__main__":
-	if len(sys.argv) != 2:
+    if len(sys.argv) != 2:
         print "USAGE: pac.py </path/to/images>"
         sys.exit()
     [X,lable] = read_images(sys.argv[1])

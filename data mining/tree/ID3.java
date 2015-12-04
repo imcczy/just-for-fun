@@ -1,16 +1,20 @@
-
 /**
  * Created by imcczy on 2015/11/18.
  */
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+//need dom4j and jaxen
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
 
 public class ID3 {
     private ArrayList<String> attribute = new ArrayList<String>(); // 存储属性的名称
@@ -18,7 +22,14 @@ public class ID3 {
     private ArrayList<String[]> data = new ArrayList<String[]>(); // 原始数据
     int decatt; // 决策变量在属性集中的索引
     public static final String patternString = "@attribute(.*)[{](.*?)[}]";
+    Document xmldoc;
+    Element root;
 
+    public ID3() {
+        xmldoc = DocumentHelper.createDocument();
+        root = xmldoc.addElement("root");
+        root.addElement("DecisionTree").addAttribute("value", "null");
+    }
     public static void main(String[] args) {
         ID3 inst = new ID3();
         inst.readARFF(new File("weather.arff"));
@@ -35,15 +46,28 @@ public class ID3 {
             al.add(i);
         }
 
-        inst.buildtree(al,ll);
+        inst.buildtree("DecisionTree","null",al,ll);
+        inst.writeXML("dt.xml");
     }
 
-    public void buildtree(ArrayList<Integer> subset,LinkedList<Integer> selatt){
+    public void buildtree(String name, String value, ArrayList<Integer> subset,
+                        LinkedList<Integer> selatt) {
+        Element ele = null;
+        @SuppressWarnings("unchecked")
+        List<Element> list = root.selectNodes("//"+name);
+        Iterator<Element> iter=list.iterator();
+        while(iter.hasNext()){
+            ele=iter.next();
+            if(ele.attributeValue("value").equals(value))
+                break;
+        }
         if (selatt.size() == 0) {
-            getMax(subset);
+            int m = getMax(subset);
+            ele.setText(data.get(subset.get(m))[decatt]);
             return;
         }
         if (infoPure(subset)) {
+            ele.setText(data.get(subset.get(0))[decatt]);
             System.out.println();
             return;
         }
@@ -60,9 +84,10 @@ public class ID3 {
         }
         System.out.println(attribute.get(minIndex)+":\t");
         selatt.remove(new Integer(minIndex));
+        String nodeName = attribute.get(minIndex);
         ArrayList<String> attvalues = attributevalue.get(minIndex);
         for (String val : attvalues) {
-
+            ele.addElement(nodeName).addAttribute("value", val);
             ArrayList<Integer> al = new ArrayList<Integer>();
             for (int i = 0; i < subset.size(); i++) {
                 if (data.get(subset.get(i))[minIndex].equals(val)) {
@@ -70,7 +95,7 @@ public class ID3 {
                 }
             }
             System.out.print(val+":\t");
-            buildtree(al,selatt);
+            buildtree(nodeName,val,al,selatt);
         }
     }
 
@@ -178,7 +203,7 @@ public class ID3 {
     }
 
     //当属性列表为空时，设为树叶节点，一般类
-    public void getMax(ArrayList<Integer> subset){
+    public int getMax(ArrayList<Integer> subset){
         int maxindex =0;
         int length = attributevalue.get(decatt).size();
         int []count =new int [length];
@@ -194,5 +219,21 @@ public class ID3 {
         }
         String value = attributevalue.get(decatt).get(maxindex);
         System.out.print(value+"\t");
+        return maxindex;
+    }
+    // 把xml写入文件
+    public void writeXML(String filename) {
+        try {
+            File file = new File(filename);
+            if (!file.exists())
+                file.createNewFile();
+            FileWriter fw = new FileWriter(file);
+            OutputFormat format = OutputFormat.createPrettyPrint(); // 美化格式
+            XMLWriter output = new XMLWriter(fw, format);
+            output.write(xmldoc);
+            output.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
