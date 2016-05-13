@@ -30,13 +30,13 @@ if __name__ == "__main__":
     dexsum = checksum(dex)
     dexsig = signature(dex)
     if dexsig != dex[12:32]:
-    	print "fixing"
+    	print "fixing signature"
     	dex.seek(12,0)
     	dex.write(dexsig)
     else:
-    	print "chcksum pass"
+    	print "checksum pass"
     if dexsum != dex[8:12]:
-    	print "fixing"
+    	print "fixing checksum"
     	dex.seek(8,0)
     	dex.write(dexsum)
     else:
