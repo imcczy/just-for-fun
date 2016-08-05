@@ -6,7 +6,7 @@
 - Linux raspberrypi 4.4.11-v7+ #888 SMP Mon May 23 20:10:33 BST 2016 armv7l GNU/Linux
 
 main反汇编代码如下：
-```ass
+```armasm
    0x00010450 <+4>:     add     r11, sp, #4
    0x00010454 <+8>:     sub     sp, sp, #80     ; 0x50
    0x00010458 <+12>:    str     r0, [r11, #-80] ; 0x50
